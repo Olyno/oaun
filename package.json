@@ -1,0 +1,30 @@
+{
+  "name": "oaun",
+  "version": "0.0.1",
+  "description": "A oauth2 client-side implementation",
+  "author": "Olyno",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "publish": "npm run build && npm publish",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Olyno/oaun.git"
+  },
+  "keywords": [
+    "oauth",
+    "oauth2",
+    "client",
+    "client-side"
+  ],
+  "license": "GNU",
+  "bugs": {
+    "url": "https://github.com/Olyno/oaun/issues"
+  },
+  "homepage": "https://github.com/Olyno/oaun#readme",
+  "devDependencies": {
+    "typescript": "^3.5.3"
+  }
+}
