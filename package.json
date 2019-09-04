@@ -1,6 +1,6 @@
 {
   "name": "oaun",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A oauth2 client-side implementation",
   "author": "Olyno",
   "main": "dist/index.js",
