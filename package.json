@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "publish": "npm run build && npm publish",
+    "prePublish": "npm run build && npm publish",
     "build": "tsc"
   },
   "repository": {
@@ -14,6 +14,7 @@
     "url": "git+https://github.com/Olyno/oaun.git"
   },
   "keywords": [
+    "oaun",
     "oauth",
     "oauth2",
     "client",
