@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"target": "esnext",
+		"target": "es5",
 		"module": "commonjs",
 		"declaration": true,
 		"outDir": "dist",
@@ -8,7 +8,8 @@
 		"esModuleInterop": true,
 		"noImplicitAny": false,
 		"experimentalDecorators": true,
-		"lib": ["esnext", "es2015", "dom"]
+		"lib": ["esnext", "es2015", "dom"],
+		"allowJs": false
 	},
 	"include": ["src"],
 	"exclude": [

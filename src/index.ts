@@ -1,15 +1,7 @@
-import DiscordAuth from './components/discord/DiscordAuth';
-import BitbucketAuth from './components/bitbucket/BitbucketAuth';
-import GithubAuth from './components/github/GithubAuth';
+import BitbucketAuth from './components/bitbucket/BitbucketAuth'
+import DiscordAuth from './components/discord/DiscordAuth'
+import GithubAuth from './components/github/GithubAuth'
+import GoogleAuth from './components/google/GoogleAuth'
 
-export {
-    DiscordAuth,
-    BitbucketAuth,
-    GithubAuth
-}
-
-export default {
-    DiscordAuth,
-    BitbucketAuth,
-    GithubAuth
-}
+export { BitbucketAuth, DiscordAuth, GithubAuth, GoogleAuth }
+export default { BitbucketAuth, DiscordAuth, GithubAuth, GoogleAuth }

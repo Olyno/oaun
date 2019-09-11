@@ -1,7 +1,7 @@
 export type Method = "GET" | "POST" | "PUT";
 
-export function parseHash(w: Window = window): any {
-	let query = w.location.hash.substr(1);
+export function parseHash(link: string): any {
+	let query = link;
 	let result: any = {};
 	query.split("&").forEach((part) => {
 		let item = part.split("=");
@@ -40,6 +40,7 @@ export function request(method: Method, url: string, params: any): Promise<any> 
 					resolve(xmlHttp.responseText);
 				}
 				else {
+					console.log(xmlHttp)
 					reject(`${xmlHttp.status}: ${xmlHttp.statusText}`);
 				}
 			}

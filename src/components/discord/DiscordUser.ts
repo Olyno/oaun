@@ -1,17 +1,17 @@
-import User from '../User';
-import { request } from '../../Util';
-import DiscordAuth from './DiscordAuth';
-import DiscordGuild from './DiscordGuild';
-import DiscordConnection from './DiscordConnection';
+import User from "../User";
+import { request } from "../../utils/Utils";
+import DiscordConnection from "./DiscordConnection";
+import DiscordGuild from "./DiscordGuild";
+import DiscordAuth from "./DiscordAuth";
 
 class DiscordUser extends User {
 
-	public oauth: DiscordAuth | undefined
+	public oauth: DiscordAuth | undefined;
 
 	public discriminator: string;
 	public mention: string;
 	public tag: string;
-	public mfa_enabled: boolean;
+	public mfa_enabled: string;
 
 	constructor (user: any) {
 		super();
@@ -28,11 +28,11 @@ class DiscordUser extends User {
 	async getConnections(): Promise<DiscordConnection[]> {
 		return new Promise((resolve, reject) => {
 			if (this.oauth !== undefined) {
-				if (!(this.oauth.scopes.includes('connections') )) {
+				if (!(this.oauth.oauth_data.scopes.includes('connections') )) {
 					reject(`You must have the scope 'connections' to use 'getConnections'`);
 					return null;
 				}
-				request('GET', `${this.oauth.informations_link}/connections`, this.oauth.default_header)
+				request('GET', `${this.oauth.user_url}/connections`, this.oauth.default_header)
 					.then(response => {
 						response = JSON.parse(response);
 						const connections: DiscordConnection[] = [];
@@ -52,10 +52,10 @@ class DiscordUser extends User {
 	async getGuilds(): Promise<DiscordGuild[]> {
 		return new Promise((resolve, reject) => {
 			if (this.oauth !== undefined) {
-				if (!(this.oauth.scopes.includes('guilds') )) {
+				if (!(this.oauth.oauth_data.scopes.includes('guilds') )) {
 					reject(`You must have the scope 'guilds' to use 'getGuilds'`);
 				}
-				request('GET', `${this.oauth.informations_link}/guilds`, this.oauth.default_header)
+				request('GET', `${this.oauth.user_url}/guilds`, this.oauth.default_header)
 					.then(response => {
 						response = JSON.parse(response);
 						const guilds: DiscordGuild[] = [];
@@ -74,7 +74,7 @@ class DiscordUser extends User {
 	async joinGuild(inviteID: string) {
 		return new Promise((resolve, reject) => {
 			if (this.oauth !== undefined) {
-				if (!(this.oauth.scopes.includes('guilds.join') )) {
+				if (!(this.oauth.oauth_data.scopes.includes('guilds.join') )) {
 					reject(`You must have the scope 'guilds.join' to use 'joinGuild'`);
 				}
 				request('POST', `https://discordapp.com/api/v6/invites/${inviteID}`, this.oauth.default_header)

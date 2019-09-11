@@ -1,64 +1,36 @@
-import OAuth2 from '../../auth/OAuth2';
-import { request } from '../../Util';
-import DiscordUser from './DiscordUser';
-import AccessToken from '../../auth/AccessToken';
+import Connection from "../Connection";
+import DiscordUser from "./DiscordUser";
+import { request } from "../../utils/Utils";
+import OauthData from "../OauthData";
 
 // Documentation available here: https://discordapp.com/developers/docs/topics/oauth2
 
-class DiscordAuth extends OAuth2 {
+class DiscordAuth extends Connection<DiscordUser> {
 
-	constructor (element: string, config?: any) {
-		super(element);
+	constructor (data: OauthData) {
+		super(data);
 		this.authorization_url = 'https://discordapp.com/api/oauth2/authorize';
 		this.token_url = 'https://discordapp.com/api/oauth2/token';
-		this.revocation_url = 'https://discordapp.com/api/oauth2/token/revoke';
-		this.informations_link = 'https://discordapp.com/api/v6/users/@me';
-		this.scopes = ['identify'];
-		if (config) {
-			for (let key of Object.keys(config)) {
-				this[key] = config[key];
-			}
-		}
+		this.revoke_url = 'https://discordapp.com/api/oauth2/token/revoke';
+		this.user_url = 'https://discordapp.com/api/v6/users/@me';
+		this.oauth_data.scopes = ['identify'];
 	}
 
-	async useCode(w: Window): Promise<DiscordUser> {
-		return new Promise((resolve, reject) => {
-			const code = w.location.search.replace('?code=', '');
-			request('POST', <string> this.token_url, {
-				code,
-				client_id: this.client_id,
-				client_secret: this.client_secret,
-				grant_type: 'authorization_code',
-				redirect_uri: this.redirect_uri,
-				scope: this.scopes.join(' ')
-			})
-			.then(response => {
-				response = JSON.parse(response);
-				this.auth = new AccessToken(response);
-				this.default_header = {
-					headers: {
-						Authorization: `${this.auth.token_type} ${this.auth.access_token}`,
-					}
-				}
-				this.getUser()
-					.then(user => resolve(user))
-					.catch(error => reject(error))
-			})
-			.catch(error => reject(error))
-		})
+	async login(): Promise<DiscordUser> {
+		return this.openPopout();
 	}
 
 	async getUser(): Promise<DiscordUser> {
 		return new Promise((resolve, reject) => {
-			if (!this.auth) {
+			if (!this.accessToken) {
 				reject('You must be logged in first!');
 				return;
 			}
-			if ( !(this.scopes.includes('identify') || this.scopes.includes('email')) ) {
+			if ( !(this.oauth_data.scopes.includes('identify') || this.oauth_data.scopes.includes('email')) ) {
 				reject(`You must have the scope 'identify' or 'email' to use 'getUser'`);
 				return;
 			}
-			request('GET', <string> this.informations_link, this.default_header)
+			request('GET', `${this.user_url}`, this.default_header)
 				.then(user => {
 					const u = new DiscordUser(JSON.parse(user));
 					u.oauth = this;

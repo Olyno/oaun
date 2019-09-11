@@ -25,8 +25,7 @@ const CLIENT_SCOPES = ['identify'] // A Array of scope that you need
 const CLIENT_REDIRECT = 'http://localhost:3000/login/callback'; // The redirect URL of your app
 
 // Setup the button
-// "mybutton" is here either the id or the class of my button
-const auth = new DiscordAuth('mybutton', {
+const auth = new DiscordAuth({
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
     scopes: CLIENT_SCOPES,
@@ -48,7 +47,7 @@ auth.login() // Open popup to login
 
 Here is a plan of what Oaun should contain:
  
-  - [ ] GoogleAuth
+  - [x] GoogleAuth
   - [ ] FacebookAuth
   - [ ] TwitterAuth
   - [x] DiscordAuth
@@ -69,7 +68,9 @@ Here is a plan of what Oaun should contain:
 # Contributing
 
  1. Clone this repo: git clone https://github.com/Olyno/oaun.git
- 2. Install dependencies: ``npm i``
+ 2. Install dependencies: ``npm i`` or ``yarn``
+ 3. Add your components in the ``components`` dir
+ 4. Make a pull request
 
 # License
 
